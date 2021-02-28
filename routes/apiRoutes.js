@@ -1,33 +1,44 @@
 const router = require("express").Router();
-const workoutTrack = require("../models/workoutTrack.js");
+const Workout = require("../models/Workout.js");
 
-router.post("/api/workoutTrack", ({ body }, res) => {
-  workoutTrack.create(body)
-    .then(dbworkoutTrack => {
-      res.json(dbworkoutTrack);
+router.post("/api/Workout", (req, res) => {
+  Workout.aggregate()
+    .create(body)
+    .then((dbWorkout) => {
+      res.json(dbWorkout);
     })
-    .catch(err => {
+    .catch((err) => {
+      res.status(400).json(err);
+    });
+});
+///////////////////
+db.sales.aggregate([
+  {
+    $group: {
+      _id: { day: { $dayOfYear: "$date" }, year: { $year: "$date" } },
+      totalAmount: { $sum: { $multiply: ["$price", "$quantity"] } },
+      count: { $sum: 1 },
+    },
+  },
+]);
+////////////////////
+router.post("/api/Workout/bulk", ({ body }, res) => {
+  Workout.insertMany(body)
+    .then((dbWorkout) => {
+      res.json(dbWorkout);
+    })
+    .catch((err) => {
       res.status(400).json(err);
     });
 });
 
-router.post("/api/workoutTrack/bulk", ({ body }, res) => {
-  workoutTrack.insertMany(body)
-    .then(dbworkoutTrack => {
-      res.json(dbworkoutTrack);
-    })
-    .catch(err => {
-      res.status(400).json(err);
-    });
-});
-
-router.get("/api/workoutTrack", (req, res) => {
-  workoutTrack.find({})
+router.get("/api/Workout", (req, res) => {
+  Workout.find({})
     .sort({ date: -1 })
-    .then(dbworkoutTrack => {
-      res.json(dbworkoutTrack);
+    .then((dbWorkout) => {
+      res.json(dbWorkout);
     })
-    .catch(err => {
+    .catch((err) => {
       res.status(400).json(err);
     });
 });

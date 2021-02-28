@@ -15,7 +15,7 @@ mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/workout", {
   useFindAndModify: false,
 });
 
-process.env.MONGODB_URI || "mongodb://localhost/fitness/workouts",
+process.env.MONGODB_URI || "mongodb://localhost/fitness/workoutdb",
   {
     useNewUrlParser: true,
     useUnifiedTopology: true,

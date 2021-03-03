@@ -41,8 +41,17 @@ router.put("/api/exercises/:id", (req, res) => {
 });
 
 router.get("/api/exercises", (req, res) => {
-  Workout.find({})
-    // .sort({ date: -1 })
+  Workout.aggregate([
+    { $sort: { date: -1 } },
+    { $limit: 1 },
+    {
+      //add fields the summaries are looking for
+      $addFields: {
+        totalDuration: { $sum: "$exercises.duration" },
+        day: { $toDate: "$date" },
+      },
+    },
+  ])
     .then((dbWorkout) => {
       res.json(dbWorkout);
     })

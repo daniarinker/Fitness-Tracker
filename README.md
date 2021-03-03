@@ -1,5 +1,7 @@
 <h1 align="center">Fitness Tracker</h1>
 
+<img src="./assets/FitnessTracker.png">
+
 <p align="center">
   <img alt="Github top language" src="https://img.shields.io/github/languages/top/daniarinker/fitness-tracker?color=56BEB8">
 

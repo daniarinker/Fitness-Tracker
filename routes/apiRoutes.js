@@ -1,29 +1,19 @@
 const router = require("express").Router();
-const Workout = require("../models/Workout.js");
+const mongoose = require("mongoose");
+const Workout = require("../models");
 
-router.post("/api/Workout", (req, res) => {
-  Workout.aggregate()
-    .create(body)
-    .then((dbWorkout) => {
+router.post("/api/exercises", (req, res) => {
+  Workout.create(req.body)
+      .then((dbWorkout) => {
       res.json(dbWorkout);
     })
     .catch((err) => {
       res.status(400).json(err);
     });
 });
-///////////////////
-db.sales.aggregate([
-  {
-    $group: {
-      _id: { day: { $dayOfYear: "$date" }, year: { $year: "$date" } },
-      totalAmount: { $sum: { $multiply: ["$price", "$quantity"] } },
-      count: { $sum: 1 },
-    },
-  },
-]);
-////////////////////
-router.post("/api/Workout/bulk", ({ body }, res) => {
-  Workout.insertMany(body)
+
+router.post("/api/exercises/bulk", ({ body }, res) => {
+  Workout.insertMany(req.body)
     .then((dbWorkout) => {
       res.json(dbWorkout);
     })
@@ -32,7 +22,7 @@ router.post("/api/Workout/bulk", ({ body }, res) => {
     });
 });
 
-router.get("/api/Workout", (req, res) => {
+router.get("/api/exercises", (req, res) => {
   Workout.find({})
     .sort({ date: -1 })
     .then((dbWorkout) => {

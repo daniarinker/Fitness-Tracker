@@ -1,25 +1,27 @@
-const express = require("express");
-const mongoose = require("mongoose");
-const db = require("/models");
-
-const PORT = process.env.PORT || 3000;
-
-const app = express();
-// routes
-
-require("./routes/htmlRoutes")(app);
-
-app.use(require("./routes/api.js"));
-
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
+var express = require("express");
+var app = express();
+var mongoose = require("mongoose");
+var PORT = process.env.PORT || 3000;
 
 app.use(express.static("public"));
+app.use(
+  express.urlencoded({
+    extended: true,
+  })
+);
 
-mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/workouts", {
-  useCreateIndex: true,
+app.use(express.json());
+
+var apiRoutes = require("./routes/apiRoutes");
+var htmlRoutes = require("./routes/htmlRoutes");
+
+app.use(apiRoutes);
+app.use(htmlRoutes);
+
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/exercise", {
   useNewUrlParser: true,
-  useFindAndModify: false,
+  useUnifiedTopology: true,
+  useCreateIndex: true,
 });
 
 app.listen(PORT, () => {
